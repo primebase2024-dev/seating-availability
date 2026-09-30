@@ -7,7 +7,6 @@ export default function AdminLayout() {
   const navigate = useNavigate()
   const location = useLocation()
   
-  // State untuk mengontrol buka/tutup sidebar di HP
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   async function handleLogout() {
@@ -15,7 +14,6 @@ export default function AdminLayout() {
     navigate('/login')
   }
 
-  // Fungsi helper agar sidebar otomatis tertutup saat menu diklik (di HP)
   function handleNavClick(path: string) {
     navigate(path)
     setIsSidebarOpen(false)
@@ -24,7 +22,7 @@ export default function AdminLayout() {
   return (
     <div className="flex h-screen bg-gray-100 overflow-hidden">
       
-      {/* 1. OVERLAY GELAP (Muncul hanya di HP saat sidebar terbuka) */}
+      {/* 1. OVERLAY GELAP (HP only) */}
       {isSidebarOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" 
@@ -32,7 +30,7 @@ export default function AdminLayout() {
         ></div>
       )}
 
-      {/* 2. SIDEBAR (Responsive: Slide-in di HP, Fixed di Desktop) */}
+      {/* 2. SIDEBAR */}
       <aside className={`
         fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white flex flex-col 
         transition-transform duration-300 ease-in-out shadow-xl
@@ -49,7 +47,6 @@ export default function AdminLayout() {
 
         {/* Menu Navigasi */}
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-          {/* Dashboard */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/dashboard')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname === '/dashboard' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -57,7 +54,6 @@ export default function AdminLayout() {
             </button>
           )}
           
-          {/* Denah Gereja */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/admin/parish-layout')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/parish-layout') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -65,7 +61,6 @@ export default function AdminLayout() {
             </button>
           )}
 
-          {/* Manajemen Event */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/admin/events')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/events') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -73,7 +68,6 @@ export default function AdminLayout() {
             </button>
           )}
 
-          {/* Laporan */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/admin/reports')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/reports') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -81,7 +75,6 @@ export default function AdminLayout() {
             </button>
           )}
 
-          {/* Menu Khusus Super Admin */}
           {profile?.role === 'super_admin' && (
             <>
               <div className="pt-4 pb-2">
@@ -99,17 +92,30 @@ export default function AdminLayout() {
           )}
         </nav>
 
-        {/* Info User di Bawah Sidebar */}
-        <div className="p-4 border-t border-slate-800 bg-slate-950 hidden md:block">
-          <p className="text-sm font-medium text-white truncate">{profile?.nama_lengkap}</p>
-          <p className="text-xs text-slate-400 truncate uppercase">{profile?.role}</p>
+        {/* 🔥 INFO USER & TOMBOL LOGOUT (Selalu terlihat di bawah sidebar) */}
+        <div className="p-4 border-t border-slate-800 bg-slate-950">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+              {profile?.nama_lengkap?.charAt(0).toUpperCase() || 'U'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">{profile?.nama_lengkap}</p>
+              <p className="text-xs text-slate-400 truncate uppercase">{profile?.role}</p>
+            </div>
+          </div>
+          <button 
+            onClick={handleLogout} 
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition shadow-lg"
+          >
+            <span>🚪</span> Logout
+          </button>
         </div>
       </aside>
 
       {/* 3. AREA KONTEN UTAMA */}
       <div className="flex-1 flex flex-col overflow-hidden">
         
-        {/* Header Mobile (Hanya muncul di HP, berisi tombol Hamburger) */}
+        {/* Header Mobile (Hanya muncul di HP) */}
         <header className="md:hidden bg-white shadow-sm p-4 flex items-center justify-between z-30 sticky top-0">
           <button onClick={() => setIsSidebarOpen(true)} className="text-gray-600 hover:text-blue-600 p-1 -ml-1">
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,12 +123,12 @@ export default function AdminLayout() {
             </svg>
           </button>
           <span className="font-bold text-gray-800 text-lg">SKTD Panel</span>
-          <button onClick={handleLogout} className="text-sm text-red-600 font-medium bg-red-50 px-3 py-1.5 rounded-lg">
+          {/* Logout cadangan untuk HP agar lebih mudah dijangkau */}
+          <button onClick={handleLogout} className="text-xs text-red-600 font-bold bg-red-50 px-3 py-2 rounded-lg border border-red-200">
             Logout
           </button>
         </header>
 
-        {/* Tempat Halaman Anak (Dashboard, Events, dll) Muncul */}
         <main className="flex-1 overflow-y-auto bg-gray-50">
           <Outlet />
         </main>
