@@ -230,18 +230,28 @@ export default function MisaEvents() {
                           {event.status ? event.status.toUpperCase() : 'DRAFT'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm space-x-2">
-                        <button onClick={() => openQrModal(event.id)} className="text-purple-600 hover:text-purple-900 font-medium" title="QR Code Layar TV">📱 QR</button>
-                        <select 
-                          value={event.status || 'draft'} 
-                          onChange={(e) => updateEventStatus(event.id, e.target.value)}
-                          className="border border-gray-300 rounded px-2 py-1 text-xs bg-white"
-                        >
-                          <option value="draft">Draft</option>
-                          <option value="active">Aktif</option>
-                          <option value="completed">Selesai</option>
-                        </select>
-                      </td>
+						<td className="px-6 py-4 whitespace-nowrap text-right text-sm space-x-2">
+						  <button 
+							onClick={() => {
+							  navigator.clipboard.writeText(`${window.location.origin}/display/${event.id}`)
+							  alert('Link Display TV disalin!')
+							}} 
+							className="text-indigo-600 hover:text-indigo-900 font-medium mr-2" 
+							title="Copy Link Display TV"
+						  >
+							📺 Link
+						  </button>
+						  <button onClick={() => openQrModal(event.id)} className="text-purple-600 hover:text-purple-900 font-medium" title="QR Code Layar TV">📱 QR</button>
+						  <select 
+							value={event.status || 'draft'} 
+							onChange={(e) => updateEventStatus(event.id, e.target.value)}
+							className="border border-gray-300 rounded px-2 py-1 text-xs bg-white ml-2"
+						  >
+							<option value="draft">Draft</option>
+							<option value="active">Aktif</option>
+							<option value="completed">Selesai</option>
+						  </select>
+						</td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
                         <button onClick={() => navigate(`/admin/events/${event.id}/setup`)} className="text-green-600 hover:text-green-900 font-semibold">Kelola Kursi</button>
                         <button onClick={() => startEdit(event)} className="text-blue-600 hover:text-blue-900">Edit</button>
