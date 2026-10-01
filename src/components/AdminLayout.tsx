@@ -47,6 +47,7 @@ export default function AdminLayout() {
 
         {/* Menu Navigasi */}
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+          {/* Dashboard */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/dashboard')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname === '/dashboard' ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -54,6 +55,7 @@ export default function AdminLayout() {
             </button>
           )}
           
+          {/* Denah Gereja */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/admin/parish-layout')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/parish-layout') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -61,6 +63,7 @@ export default function AdminLayout() {
             </button>
           )}
 
+          {/* Manajemen Event */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/admin/events')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/events') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -68,6 +71,7 @@ export default function AdminLayout() {
             </button>
           )}
 
+          {/* Laporan */}
           {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
             <button onClick={() => handleNavClick('/admin/reports')}
               className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/reports') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
@@ -75,24 +79,29 @@ export default function AdminLayout() {
             </button>
           )}
 
+          {/* 🔥 PERBAIKAN: Kelola User (Bisa diakses Admin Paroki & Super Admin) */}
+          {(profile?.role === 'admin' || profile?.role === 'super_admin') && (
+            <button onClick={() => handleNavClick('/admin/users')}
+              className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/users') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
+              <span></span> Kelola User & Undangan
+            </button>
+          )}
+
+          {/*  Kelola Paroki (HANYA Super Admin) */}
           {profile?.role === 'super_admin' && (
             <>
               <div className="pt-4 pb-2">
-                <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Super Admin</p>
+                <p className="px-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Super Admin Pusat</p>
               </div>
               <button onClick={() => handleNavClick('/admin/paroki')}
                 className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/paroki') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
                 <span>⛪</span> Kelola Paroki
               </button>
-              <button onClick={() => handleNavClick('/admin/users')}
-                className={`w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition ${location.pathname.startsWith('/admin/users') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
-                <span>👥</span> Kelola User
-              </button>
             </>
           )}
         </nav>
 
-        {/* 🔥 INFO USER & TOMBOL LOGOUT (Selalu terlihat di bawah sidebar) */}
+        {/* INFO USER & TOMBOL LOGOUT */}
         <div className="p-4 border-t border-slate-800 bg-slate-950">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
@@ -107,7 +116,7 @@ export default function AdminLayout() {
             onClick={handleLogout} 
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition shadow-lg"
           >
-            <span>🚪</span> Logout
+            <span></span> Logout
           </button>
         </div>
       </aside>
@@ -115,7 +124,7 @@ export default function AdminLayout() {
       {/* 3. AREA KONTEN UTAMA */}
       <div className="flex-1 flex flex-col overflow-hidden">
         
-        {/* Header Mobile (Hanya muncul di HP) */}
+        {/* Header Mobile */}
         <header className="md:hidden bg-white shadow-sm p-4 flex items-center justify-between z-30 sticky top-0">
           <button onClick={() => setIsSidebarOpen(true)} className="text-gray-600 hover:text-blue-600 p-1 -ml-1">
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +132,6 @@ export default function AdminLayout() {
             </svg>
           </button>
           <span className="font-bold text-gray-800 text-lg">SKTD Panel</span>
-          {/* Logout cadangan untuk HP agar lebih mudah dijangkau */}
           <button onClick={handleLogout} className="text-xs text-red-600 font-bold bg-red-50 px-3 py-2 rounded-lg border border-red-200">
             Logout
           </button>
