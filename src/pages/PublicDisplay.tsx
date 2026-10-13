@@ -261,7 +261,7 @@ export default function PublicDisplay() {
 
       <style>{`
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 10s linear infinite; }
+        .animate-marquee { animation: marquee 5s linear infinite; }
         .scroll-content:hover { animation-play-state: paused; }
       `}</style>
     </div>
