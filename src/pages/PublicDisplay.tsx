@@ -143,7 +143,7 @@ export default function PublicDisplay() {
             const grid = generateGrid(area.columns)
             return (
               <div key={area.id} className="bg-blue-800 rounded-xl p-4 shadow-xl border border-blue-700">
-                <h4 className="text-xl font-bold text-center mb-4 text-yellow-400 border-b border-blue-700 pb-2">{area.nama}</h4>
+                <h2 className="text-xl font-bold text-center mb-4 text-yellow-400 border-b border-blue-700 pb-2">{area.nama}</h2>
                 
                 <div className="bg-white text-blue-900 rounded-lg px-4 py-2 mb-4 mx-auto w-fit shadow-lg flex items-center gap-2">
                   <div className="text-xl">✝️</div>
@@ -261,7 +261,7 @@ export default function PublicDisplay() {
 
       <style>{`
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 5s linear infinite; }
+        .animate-marquee { animation: marquee 10s linear infinite; }
         .scroll-content:hover { animation-play-state: paused; }
       `}</style>
     </div>
